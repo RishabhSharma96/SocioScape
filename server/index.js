@@ -45,7 +45,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage })
 
 
-app.post("/api/register", upload.single("image"), register)
+app.post("/api/register", register)
 app.post("/api/posts", verifyToken, upload.single("image"), createPost)
 app.post("/api/login", login)
 app.use("/api", userRoutes)
