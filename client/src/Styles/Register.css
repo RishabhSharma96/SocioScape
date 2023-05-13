@@ -1,0 +1,103 @@
+.signup-form-div {
+    display: flex;
+    height: 100vh;
+    overflow-y: hidden;
+}
+
+.register-image {
+    height: 100vh;
+    margin-right: 10%;
+}
+
+.register-image img {
+    width: 180%;
+    margin-left: -25px;
+    height: 100vh;
+    mix-blend-mode: multiply;
+}
+
+.register-second {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-register {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-register>p {
+    font-size: 1.2rem;
+    color: rgb(86, 86, 215);
+}
+
+.welcome-register img {
+    height: 8rem;
+}
+
+.register-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.names {
+    display: flex;
+}
+
+form input {
+    height: 2.5rem;
+    width: 14rem;
+    border-radius: 10px;
+    padding-left: 1rem;
+    border: 2px solid grey;
+    margin-right: 1rem;
+    margin-top: 1rem;
+    color: grey;
+}
+
+input:hover {
+    border: 1px solid blue;
+    border-bottom: 2px solid blue;
+    border-top: 2px solid blue;
+}
+
+.email>input,
+.password>input {
+    width: 20rem;
+}
+
+.drop-photo {
+    border: 2px dashed blue;
+    height: 2.5rem;
+    width: 15rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.drop-photo p{
+    cursor: pointer;
+}
+
+.register-button{
+    height: 2.5rem;
+    width: 10rem;
+    margin-left: 1rem;
+    border-radius: 8px;
+    background-color: rgb(86, 86, 215);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold
+}
