@@ -33,12 +33,14 @@ const UserSchema = new mongoose.Schema({
         type: String
     },
     views: {
-        type: Number
+        type: Number,
+        default: 0
     },
     impressions: {
-        type: Number
+        type: Number,
+        default: 0
     }
-},{timestamps: true})
+}, { timestamps: true })
 
-const User = mongoose.model("User" , UserSchema)
+const User = mongoose.model("User", UserSchema)
 export default User

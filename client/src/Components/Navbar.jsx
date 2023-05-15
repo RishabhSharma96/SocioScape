@@ -13,8 +13,7 @@ function Navbar() {
 
     const [search, setsearch] = useState("")
 
-    // const name = `${user.firstName`
-    const name = "rishabh"
+    const name = `${user.firstName}`
 
     return (
         <div>

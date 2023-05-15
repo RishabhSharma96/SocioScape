@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import signup from "../assets/signup.jpg"
 import logo from "../assets/logo.png"
-import { useNavigate } from 'react-router-dom'
 import axios from "axios"
 import "../Styles/Register.css"
 
 function Register() {
-
     const navigate = useNavigate()
 
     const [registerData, setregisterData] = useState({
@@ -19,44 +18,41 @@ function Register() {
         occupation: ""
     })
 
-    const [image, setimage] = useState("")
-
     const handleSubmit = async (e) => {
         e.preventDefault()
-
-        handleImageUpload()
 
         await axios.post("http://localhost:5000/api/register", {
             firstName: registerData.firstName,
             lastName: registerData.lastName,
             email: registerData.email,
             password: registerData.password,
+            picturePath: registerData.picturePath,
             location: registerData.location,
             occupation: registerData.occupation,
-            picturePath: registerData.picturePath
-        })
-
-        // console.log(data)
-        navigate("/home")
-    }
-
-    const handleImageUpload = async (e) => {
-
-        const data = new FormData()
-        data.append("file", image)
-        data.append("upload_preset", "socioscape")
-        data.append("cloud_name", "digqsa0hu")
-
-        await fetch("https://api.cloudinary.com/v1_1/digqsa0hu/image/upload", {
-            method: "post",
-            body: data
-        }).then((res) => res.json()).then((data) => {
-            setregisterData({...registerData, picturePath:data.url})
-        }).catch((err) => {
-            console.log(err.message)
+        }).then((response) => {
+            console.log(response)
+            navigate("/")
+        }).catch((error) => {
+            console.log(error)
         })
     }
 
+    const uploadImages = async (e) => {
+        const files = e.target.files;
+        const formData = new FormData();
+        for (const file of files) {
+            formData.append("file", file);
+            formData.append("upload_preset", "socioscape")
+        }
+        const data = await axios
+            .post("https://api.cloudinary.com/v1_1/digqsa0hu/image/upload",
+                formData
+            )
+            .then((response) => {
+                console.log(response.data.secure_url);
+                setregisterData({ ...registerData, picturePath: response.data.secure_url });
+            })
+    }
     return (
         <div>
             <div className='signup-form-div'>
@@ -68,16 +64,19 @@ function Register() {
                         <p className='welcome-text'>Welcome to</p>
                         <img src={logo} alt="" />
                     </div>
-                    <form className="register-form">
+                    <form className="register-form" onSubmit={handleSubmit}>
+                        <div  >
+                            <input className='photo-uploader' type="file" name='image' onChange={uploadImages} />
+                        </div>
                         <div className='names'>
-                            <input
+                            <input className='register-form-input'
                                 type="text"
                                 placeholder='Enter your First Name'
                                 name='firstName'
                                 value={registerData.firstName}
                                 onChange={(e) => setregisterData({ ...registerData, firstName: e.target.value })}
                             />
-                            <input
+                            <input className='register-form-input'
                                 type="text"
                                 placeholder='Enter your Last Name'
                                 name='lastName'
@@ -86,7 +85,7 @@ function Register() {
                             />
                         </div>
                         <div className="email">
-                            <input
+                            <input className='register-form-input'
                                 type="text"
                                 placeholder='Enter email'
                                 name='email'
@@ -95,7 +94,7 @@ function Register() {
                             />
                         </div>
                         <div className="password">
-                            <input
+                            <input className='register-form-input'
                                 type="password"
                                 placeholder='Enter Password'
                                 name='password'
@@ -104,14 +103,14 @@ function Register() {
                             />
                         </div>
                         <div className="extra">
-                            <input
+                            <input className='register-form-input'
                                 type="text"
                                 placeholder='Enter Location'
                                 name='location'
                                 value={registerData.location}
                                 onChange={(e) => setregisterData({ ...registerData, location: e.target.value })}
                             />
-                            <input
+                            <input className='register-form-input'
                                 type="text"
                                 placeholder='Enter Occupation'
                                 name='occupation'
@@ -119,19 +118,14 @@ function Register() {
                                 onChange={(e) => setregisterData({ ...registerData, occupation: e.target.value })}
                             />
                         </div>
-                        <div>
-
-                            <input type="file" name='image' onChange={(e) => setimage(e.target.files[0])} />
-
-                        </div>
                         <div className="registerbtn">
                             <button
                                 type='submit'
-                                onClick={handleSubmit}
                                 className='register-button'
                             >Register</button>
                         </div>
                     </form>
+                    <p className='register-p toggle-helper'>Have an account? <span className='toggle-span' onClick={() => navigate("/")}>Login</span></p>
                 </div>
             </div>
         </div>
