@@ -5,6 +5,8 @@ import "./ProfilePage.css"
 import Navbar from '../../Components/Navbar'
 import UserPosts from '../../Components/UserPosts'
 import Posts from '../../Components/Posts'
+import Advertisement from '../../Components/Advertisement'
+import FriendList from '../../Components/FriendList'
 
 function ProfilePage() {
 
@@ -13,11 +15,15 @@ function ProfilePage() {
   return (
     <div>
       <Navbar />
-      <div className='profile-page-compponent'>
+      <div className='home-main'>
         <ProfileSider userId={id} />
-        <div>
+        <div className="postArea">
           <Posts />
           <UserPosts userId={id} />
+        </div>
+        <div className='right-sider'>
+          <Advertisement />
+          <FriendList userId={id} />
         </div>
       </div>
     </div>

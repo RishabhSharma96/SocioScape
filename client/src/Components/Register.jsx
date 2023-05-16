@@ -38,11 +38,13 @@ function Register() {
             location: registerData.location,
             occupation: registerData.occupation,
         }).then((response) => {
-            console.log(response)
-            navigate("/")
+            // console.log(response)
+            navigate("/login")
             toast.success("Registeration Successful")
         }).catch((error) => {
             // console.log(error)
+            toast.error(error.message)
+            navigate("/login")
         })
     }
 

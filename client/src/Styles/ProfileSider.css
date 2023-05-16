@@ -22,15 +22,20 @@
 }
 
 .bio-image>img {
-    height: 5rem;
-    width: 5rem;
+    height: 60px;
+    width: 85px;
     /* display: none; */
     border-radius: 100%;
     cursor: pointer;
+    margin-left: 1rem;
+    margin-top: 10px;
+    margin-right: 1rem;
+    overflow: hidden;
 }
 
 .name{
     color: blue;
+    margin-top: 1rem;
 }
 
 .friend-count{
@@ -108,4 +113,10 @@ hr{
 .twitter-logo>i, .linkedin-logo>i{
     font-size: 1.3rem;
     margin-top: 10px;
+}
+
+.fa-street-view{
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    margin-right: -10px;
 }

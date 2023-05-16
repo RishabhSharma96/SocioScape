@@ -4,12 +4,14 @@ import { setPost } from '../States'
 import axios from 'axios'
 import "../Styles/Posts.css"
 import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 function Posts() {
 
     const dispatch = useDispatch()
     const _id = useSelector((state) => state.user._id)
     const profilePic = useSelector((state) => state.user.picturePath)
+    const navigate = useNavigate()
 
     const [postData, setPostData] = useState({
         userId: _id,
@@ -31,7 +33,7 @@ function Posts() {
             .then((response) => {
                 console.log(response.data.secure_url);
                 setPostData({ ...postData, picturePath: response.data.secure_url });
-                toast.success("Profile picture added successfully")
+                toast.success("Post picture added successfully")
             }).catch((error) => {
                 console.log(error)
                 toast.error(error.message + " picture adding unsuccessful")
@@ -41,7 +43,7 @@ function Posts() {
     const HandlePost = async (e) => {
         e.preventDefault()
 
-        if(!postData.picturePath || !postData.description){
+        if (!postData.picturePath || !postData.description) {
             toast.error("Please fill all fields")
             return
         }
@@ -54,17 +56,19 @@ function Posts() {
             console.log(response)
             dispatch(setPost({ response }))
             toast.success("Post added Successfully")
-            setPostData({...postData, picturePath: "", description: ""})
+            setPostData({ ...postData, picturePath: "", description: "" })
         }).catch((error) => {
             console.log(error)
         })
+
+        window.location.reload(true)
     }
 
     return (
         <div className='post-form'>
             <form>
                 <div className="write">
-                    <img src={profilePic} alt="" />
+                    <img src={profilePic} alt="" onClick={() => navigate(`/profile/${_id}`)} />
                     <input
                         type="text"
                         placeholder="What's on your mind?"
@@ -74,7 +78,7 @@ function Posts() {
                 </div>
                 <div className="photo-upload post-uploader">
                     <div  >
-                        <input className='photo-uploader post-img' style={{width :"17rem"}} type="file" name='image' onChange={uploadImages} />
+                        <input className='photo-uploader post-img' style={{ width: "17rem" }} type="file" name='image' onChange={uploadImages} />
                     </div>
                 </div>
                 <div className="upload-btn">

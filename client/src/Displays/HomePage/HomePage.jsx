@@ -5,7 +5,8 @@ import "./HomePage.css"
 import { useSelector } from 'react-redux'
 import Posts from '../../Components/Posts'
 import AllPosts from '../../Components/AllPosts'
-import Friends from '../../Components/Friends'
+import FriendList from '../../Components/FriendList'
+import Advertisement from '../../Components/Advertisement'
 
 function HomePage() {
 
@@ -20,7 +21,10 @@ function HomePage() {
           <Posts />
           <AllPosts />
         </div>
-        <Friends />
+        <div className='right-sider'>
+          <Advertisement />
+          <FriendList userId={_id} />
+        </div>
       </div>
     </div>
   )

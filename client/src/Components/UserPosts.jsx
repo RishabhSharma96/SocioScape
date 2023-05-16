@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { useSelector, useDispatch } from 'react-redux'
-import { setPost, setPosts } from '../States'
+import { setPost } from '../States'
 import "../Styles/AllPosts.css"
 import { useNavigate } from 'react-router-dom'
 
@@ -54,7 +54,7 @@ function UserPosts({ userId }) {
             console.log(error)
         })
     }
-
+    
     return (
         <div className="posts-wrapper">
             {feed.map((post) => {
