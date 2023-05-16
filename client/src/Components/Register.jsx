@@ -4,6 +4,7 @@ import signup from "../assets/signup.jpg"
 import logo from "../assets/logo.png"
 import axios from "axios"
 import "../Styles/Register.css"
+import { toast } from 'react-hot-toast'
 
 function Register() {
     const navigate = useNavigate()
@@ -21,6 +22,13 @@ function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
+        if (!registerData.firstName || !registerData.lastName || !registerData.email || !registerData.password
+            || !registerData.picturePath || !registerData.location || !registerData.occupation) {
+            toast.error("Please fill all Credentials")
+            return
+        }
+
+
         await axios.post("http://localhost:5000/api/register", {
             firstName: registerData.firstName,
             lastName: registerData.lastName,
@@ -32,8 +40,9 @@ function Register() {
         }).then((response) => {
             console.log(response)
             navigate("/")
+            toast.success("Registeration Successful")
         }).catch((error) => {
-            console.log(error)
+            // console.log(error)
         })
     }
 
@@ -51,6 +60,10 @@ function Register() {
             .then((response) => {
                 console.log(response.data.secure_url);
                 setregisterData({ ...registerData, picturePath: response.data.secure_url });
+                toast.success("Profile picture added successfully")
+            }).catch((err)=>{
+                toast.error(err.message + " picture adding unsuccessful")
+                console.log(err.message)
             })
     }
     return (
@@ -86,7 +99,7 @@ function Register() {
                         </div>
                         <div className="email">
                             <input className='register-form-input'
-                                type="text"
+                                type="email"
                                 placeholder='Enter email'
                                 name='email'
                                 value={registerData.email}

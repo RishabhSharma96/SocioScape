@@ -2,8 +2,8 @@ import User from "../Models/User.js";
 
 export const getUserData = async (req, res) => {
     try {
-        const { id } = req.params
-        const userData = await User.findById(id)
+        const userId = req.params.id
+        const userData = await User.findById(userId)
         res.status(200).json(userData)
     }
     catch (err) {

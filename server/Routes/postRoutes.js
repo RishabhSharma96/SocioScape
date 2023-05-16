@@ -1,13 +1,14 @@
 import express from "express"
-import { verifyToken } from "../Middleware/Auth.js"
 import { getFeedPosts } from "../Controllers/GetFeed.js"
 import { getUserPosts } from "../Controllers/GetUserPosts.js"
 import { likePost } from "../Controllers/LikePost.js"
+import { addComment } from "../Controllers/AddComment.js"
 
 const router = express.Router() 
 
-router.get("/", verifyToken, getFeedPosts)
-router.get("/:id/posts", verifyToken, getUserPosts)
-router.patch("/:id/like", verifyToken, likePost)
+router.get("/", getFeedPosts)
+router.get("/:id", getUserPosts)
+router.patch("/:id/like", likePost)
+router.patch("/:id/addcomment", addComment)
 
 export default router

@@ -1,0 +1,57 @@
+.post-form{
+    width: 300px;
+    border: 2px solid blue;
+    border-radius: 20px;
+    height: 11rem;
+    box-shadow: -3px 3px 5px #aaaaaa;
+
+}
+
+.write{
+    display: flex;
+}
+
+.write>img{
+    height: 70px;
+    width: 70px;
+    border-radius: 100%;
+}
+
+.write input{
+    width: 13rem;
+    height: 50px;
+    margin-top:10px;
+    padding-left: 1rem;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(233, 231, 231);
+}
+
+.input:focus{
+    outline : none
+}
+
+.post-uploader{
+    margin-left: 20px;
+    margin-top: -10px;
+}
+
+.upload-btn>input{
+    height: 2rem;
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 10px;
+    border-radius: 8px;
+    background-color: rgb(86, 86, 215);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.upload-btn>input:hover{
+    background-color: white;
+    color: blue;
+    border: 2px solid blue;
+    transition: ease-in-out 0.2s;
+}

@@ -6,6 +6,7 @@ import axios from 'axios'
 import login from "../assets/login.jpg"
 import logo from "../assets/logo.png"
 import "../Styles/Login.css"
+import { toast } from 'react-hot-toast'
 
 function Login() {
 
@@ -20,18 +21,24 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault()
 
+        if (!loginData.email || !loginData.password) {
+            toast.error("Please fill all Credentials")
+            return
+        }
+
         const data = await axios.post("http://localhost:5000/api/login", {
             email: loginData.email,
             password: loginData.password
         }).then((response) => {
-            console.log(response.data.data)
             dispatch(setLogin({
                 user: response.data.data,
                 token: response.data.token
             }))
-            navigate("/home")
+            toast.success("Login Successful")
+            navigate("/")
         }).catch((error) => {
             console.log(error)
+            toast.error("Credentials didn't match")
         })
     }
 

@@ -46,10 +46,10 @@ const upload = multer({ storage })
 
 
 app.post("/api/register", register)
-app.post("/api/posts", verifyToken, upload.single("image"), createPost)
+app.post("/api/posts", createPost)
 app.post("/api/login", login)
-app.use("/api", userRoutes)
 app.use("/api/posts", postRoutes)
+app.use("/api", userRoutes)
 
 
 app.listen(PORT, () => {

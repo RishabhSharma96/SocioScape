@@ -20,7 +20,7 @@ function Navbar() {
             <div className="navbar">
                 <div className='first'>
                     <div>
-                        <img src={logo} alt="company-logo" onClick={() => {navigate("/home")}} />
+                        <img src={logo} alt="company-logo" onClick={() => {navigate("/")}} />
                     </div>
                     <div>
                         <input
