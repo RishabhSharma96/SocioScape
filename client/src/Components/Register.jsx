@@ -5,6 +5,7 @@ import logo from "../assets/logo.png"
 import axios from "axios"
 import "../Styles/Register.css"
 import { toast } from 'react-hot-toast'
+import { motion } from 'framer-motion'
 
 function Register() {
     const navigate = useNavigate()
@@ -29,7 +30,7 @@ function Register() {
         }
 
 
-        await axios.post("http://localhost:5000/api/register", {
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/register`, {
             firstName: registerData.firstName,
             lastName: registerData.lastName,
             email: registerData.email,
@@ -53,17 +54,17 @@ function Register() {
         const formData = new FormData();
         for (const file of files) {
             formData.append("file", file);
-            formData.append("upload_preset", "socioscape")
+            formData.append("upload_preset", `${process.env.REACT_APP_UPLOAD_PRESET}`)
         }
         const data = await axios
-            .post("https://api.cloudinary.com/v1_1/digqsa0hu/image/upload",
+            .post(`${process.env.REACT_APP_CLOUDINARY_URL}`,
                 formData
             )
             .then((response) => {
                 console.log(response.data.secure_url);
                 setregisterData({ ...registerData, picturePath: response.data.secure_url });
                 toast.success("Profile picture added successfully")
-            }).catch((err)=>{
+            }).catch((err) => {
                 toast.error(err.message + " picture adding unsuccessful")
                 console.log(err.message)
             })
@@ -71,10 +72,19 @@ function Register() {
     return (
         <div>
             <div className='signup-form-div'>
-                <div className="register-image">
+                <motion.div
+                    transition={{ duration: 0.8 }}
+                    animate={{ scale: 1 }}
+                    initial={{ scale: 0.1 }}
+                    className="register-image">
                     <img src={signup} alt="" />
-                </div>
-                <div className='register-second'>
+                </motion.div>
+                <motion.div
+                    transition={{ duration: 0.8 }}
+                    initial={{ opacity: 0, y: "+400px" }}
+                    animate={{ opacity: 1, y: "0px" }}
+                    exit={{ opacity: 0, y: "+400px" }}
+                    className='register-second'>
                     <div className='welcome-register'>
                         <p className='welcome-text'>Welcome to</p>
                         <img src={logo} alt="" />
@@ -141,7 +151,7 @@ function Register() {
                         </div>
                     </form>
                     <p className='register-p toggle-helper'>Have an account? <span className='toggle-span' onClick={() => navigate("/")}>Login</span></p>
-                </div>
+                </motion.div>
             </div>
         </div>
     )

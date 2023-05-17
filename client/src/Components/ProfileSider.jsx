@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import "../Styles/ProfileSider.css"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 function ProfileSider({ userId }) {
 
@@ -9,7 +10,7 @@ function ProfileSider({ userId }) {
     const navigate = useNavigate()
 
     const getUserDetails = async () => {
-        axios.get(`http://localhost:5000/api/${userId}`).then((response) => {
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/${userId}`).then((response) => {
             setUserDetails(response.data)
         }).catch((err) => {
             console.log(err)
@@ -22,11 +23,16 @@ function ProfileSider({ userId }) {
 
     return (
         <div>
-            <div className="profile-wrapper">
+            <motion.div
+                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0, x: "-400px" }}
+                animate={{ opacity: 1, x: "0px" }}
+                exit={{ opacity: 0, x: "-400px" }}
+                className="profile-wrapper">
                 <div className="bio">
                     <div className="bio-image">
-                        <img onClick={() => {navigate(`/profile/${userDetails._id}`)}} src={userDetails.picturePath} alt="" />
-                        <div onClick={() => {navigate(`/profile/${userDetails._id}`)}} className="bio-info">
+                        <img onClick={() => { navigate(`/profile/${userDetails._id}`) }} src={userDetails.picturePath} alt="" />
+                        <div onClick={() => { navigate(`/profile/${userDetails._id}`) }} className="bio-info">
                             <span className="name"><b>{userDetails.firstName} &nbsp;
                                 {userDetails.lastName}</b></span>
                             <span className="friend-count">{userDetails.friends === undefined ? 0 : userDetails.friends.length} Friends</span>
@@ -72,7 +78,7 @@ function ProfileSider({ userId }) {
                             <span className='company-name'>Twitter</span>
                             <span className='commpany-user-info'>
                                 <i>@{userDetails.firstName}
-                                {userDetails.lastName}</i></span>
+                                    {userDetails.lastName}</i></span>
                         </div>
                     </div>
                     <div className="linkedin">
@@ -87,7 +93,7 @@ function ProfileSider({ userId }) {
                 </div>
 
 
-            </div>
+            </motion.div>
         </div>
     )
 }

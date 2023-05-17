@@ -5,6 +5,7 @@ import axios from 'axios'
 import "../Styles/Posts.css"
 import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 function Posts() {
 
@@ -24,10 +25,10 @@ function Posts() {
         const formData = new FormData();
         for (const file of files) {
             formData.append("file", file);
-            formData.append("upload_preset", "socioscape")
+            formData.append("upload_preset", `${process.env.REACT_APP_UPLOAD_PRESET}`)
         }
         const data = await axios
-            .post("https://api.cloudinary.com/v1_1/digqsa0hu/image/upload",
+            .post(`${process.env.REACT_APP_CLOUDINARY_URL}`,
                 formData
             )
             .then((response) => {
@@ -48,7 +49,7 @@ function Posts() {
             return
         }
 
-        await axios.post("http://localhost:5000/api/posts", {
+        await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/posts`, {
             picturePath: postData.picturePath,
             userId: postData.userId,
             description: postData.description
@@ -65,7 +66,12 @@ function Posts() {
     }
 
     return (
-        <div className='post-form'>
+        <motion.div
+            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: "-400px" }}
+            animate={{ opacity: 1, y: "0px" }}
+            exit={{ opacity: 0, y: "-400px" }}
+            className='post-form'>
             <form>
                 <div className="write">
                     <img src={profilePic} alt="" onClick={() => navigate(`/profile/${_id}`)} />
@@ -85,7 +91,7 @@ function Posts() {
                     <input type="submit" value="Post" onClick={HandlePost} />
                 </div>
             </form>
-        </div>
+        </motion.div>
     )
 }
 

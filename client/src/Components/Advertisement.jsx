@@ -7,7 +7,7 @@ function Advertisement() {
         <div className='ad-wrapper'>
             <img src={ad} alt="" />
             <p>Order pipin hot food at your doorsteps</p>
-            <a href="https://foodify-rishabhsharma.netlify.app/">www.foodify.com</a>
+            <a href={`${process.env.REACT_APP_FOODIFY_URL}`}>www.foodify.com</a>
         </div>
     )
 }

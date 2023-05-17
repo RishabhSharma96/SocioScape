@@ -12,7 +12,7 @@ function FriendList({ userId }) {
     const [friendsList, setFriendsList] = useState([])
 
     const getFriends = async () => {
-        await axios.get(`http://localhost:5000/api/${userId}/friends`).then((response) => {
+        await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/${userId}/friends`).then((response) => {
             console.log(response.data)
             setFriendsList(response.data)
         }).catch((error) => {

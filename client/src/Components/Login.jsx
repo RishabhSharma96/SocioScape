@@ -7,6 +7,7 @@ import login from "../assets/login.jpg"
 import logo from "../assets/logo.png"
 import "../Styles/Login.css"
 import { toast } from 'react-hot-toast'
+import { motion } from 'framer-motion'
 
 function Login() {
 
@@ -26,7 +27,7 @@ function Login() {
             return
         }
 
-        const data = await axios.post("http://localhost:5000/api/login", {
+        const data = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/login`, {
             email: loginData.email,
             password: loginData.password
         }).then((response) => {
@@ -44,7 +45,12 @@ function Login() {
 
     return (
         <div className="login-main">
-            <div className="login-form">
+            <motion.div
+                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0, y: "+400px" }}
+                animate={{ opacity: 1, y: "0px" }}
+                exit={{ opacity: 0, y: "+400px" }}
+                className="login-form">
                 <form onSubmit={handleLogin}>
                     <div className='welcome-register'>
                         <p className='welcome-text'>Welcome to</p>
@@ -76,10 +82,15 @@ function Login() {
                     </div>
                 </form>
                 <p className='toggle-helper'>New here? <span className='toggle-span' onClick={() => navigate("/register")}>Register</span></p>
-            </div>
-            <div className="login-image">
+            </motion.div>
+            <motion.div
+                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0, y: "-400px" }}
+                animate={{ opacity: 1, y: "0px" }}
+                exit={{ opacity: 0, y: "-400px" }}
+                className="login-image">
                 <img src={login} alt="" />
-            </div>
+            </motion.div>
         </div>
     )
 }

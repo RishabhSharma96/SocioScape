@@ -17,14 +17,13 @@ function Friends({ name, location, picturePath, friendId }) {
     const isFriend = friends.find((friend) => friend._id === friendId)
 
     const patchFriend = async () => {
-        axios.patch(`http://localhost:5000/api/${id}/${friendId}`).then((response) => {
+        axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/${id}/${friendId}`).then((response) => {
             // console.log(response)
             dispatch(setFriends({ friends: response.data }))
             toast.success("Friend added successfully")
         }).catch((err) => {
             console.log(err)
         })
-        window.location.reload(false)
     }
 
     return (

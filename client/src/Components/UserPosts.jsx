@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setPost } from '../States'
 import "../Styles/AllPosts.css"
 import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 function UserPosts({ userId }) {
 
@@ -16,7 +17,7 @@ function UserPosts({ userId }) {
 
     const getUserPosts = async () => {
         console.log(userId)
-        await axios.get(`http://localhost:5000/api/posts/${userId}`).then((response) => {
+        await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/posts/${userId}`).then((response) => {
             const alldata = response.data
             setFeed(alldata.reverse())
             // dispatch(setPosts({ posts: response }))
@@ -34,7 +35,7 @@ function UserPosts({ userId }) {
     }
 
     const HandleAddComment = async (id) => {
-        await axios.patch(`http://localhost:5000/api/posts/${id}/addcomment`, {
+        await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/posts/${id}/addcomment`, {
             commentData: comment
         }).then((response) => {
             console.log(response)
@@ -45,7 +46,7 @@ function UserPosts({ userId }) {
     }
 
     const HandleLike = async (id) => {
-        await axios.patch(`http://localhost:5000/api/posts/${id}/like`, {
+        await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/posts/${id}/like`, {
             userId: loggedUser
         }).then((response) => {
             console.log(response)
@@ -54,9 +55,18 @@ function UserPosts({ userId }) {
             console.log(error)
         })
     }
-    
+
     return (
-        <div className="posts-wrapper">
+        <motion.div
+
+            initial={{ opacity: 0, y: "-200vh" }}
+            animate={{ opacity: 1, y: "0" }}
+            exit={{ opacity: 0, y: "-200vh" }}
+            transition={{ duration: 1, delay: 0.2 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+
+            className="posts-wrapper">
             {feed.map((post) => {
                 return (
                     <div className="single-post">
@@ -110,7 +120,7 @@ function UserPosts({ userId }) {
 
 
 
-        </div >
+        </motion.div >
     )
 }
 

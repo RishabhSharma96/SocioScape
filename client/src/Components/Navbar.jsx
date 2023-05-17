@@ -4,6 +4,7 @@ import { setLogout } from '../States'
 import { useNavigate } from 'react-router-dom'
 import logo from "../assets/logo.png"
 import "../Styles/Navbar.css"
+import { motion } from 'framer-motion'
 
 function Navbar() {
 
@@ -17,10 +18,15 @@ function Navbar() {
 
     return (
         <div>
-            <div className="navbar">
+            <motion.div
+                transition={{ duration: 0.8 }}
+                initial={{ opacity: 0, y: "-400px" }}
+                animate={{ opacity: 1, y: "0px" }}
+                exit={{ opacity: 0, y: "-400px" }}
+                className="navbar">
                 <div className='first'>
                     <div>
-                        <img src={logo} alt="company-logo" onClick={() => {navigate("/")}} />
+                        <img src={logo} alt="company-logo" onClick={() => { navigate("/") }} />
                     </div>
                     <div>
                         <input
@@ -40,7 +46,7 @@ function Navbar() {
                     </div>
                     <button onClick={() => dispatch(setLogout())}>Logout</button>
                 </div>
-            </div>
+            </motion.div>
         </div>
     )
 }
