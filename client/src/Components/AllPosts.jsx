@@ -12,10 +12,14 @@ function AllPosts() {
 
     const [feed, setFeed] = useState([])
     const dispatch = useDispatch()
-    const [isCommentsVisible, setIsCommentsVisible] = useState(false)
     const loggedUser = useSelector((state) => state.user._id)
+    const loggedUserData = useSelector((state) => state.user)
     const [comment, setComment] = useState("")
     const navigate = useNavigate()
+    const token = useSelector((state) => state.token)
+    
+    const [isCommentsVisible, setIsCommentsVisible] = useState(false)
+
 
     const [friendData, setFriendData] = useState({
         name: "",
@@ -26,13 +30,18 @@ function AllPosts() {
     })
 
     const getAllPosts = async () => {
-        await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/posts`).then((response) => {
-            const alldata = response.data
-            setFeed(alldata.reverse())
-            dispatch(setPosts({ posts: response.data }))
-        }).catch((error) => {
-            console.log(error)
-        })
+        await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/posts`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then((response) => {
+                const alldata = response.data
+                setFeed(alldata.reverse())
+                dispatch(setPosts({ posts: response.data }))
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 
     useEffect(() => {
@@ -44,36 +53,51 @@ function AllPosts() {
     }
 
     const HandleAddComment = async (id) => {
+        console.log(token)
+        if (!comment) {
+            toast.error("Can't post empty comment")
+            return
+        }
         await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/posts/${id}/addcomment`, {
-            commentData: comment
-        }).then((response) => {
-            // console.log(response)
-            dispatch(setPost({ post: response }))
-            setComment("")
-            toast.success("Comment added")
-        }).catch((err) => {
-            console.log(err)
-        });
+            commentData: ` ${loggedUserData.firstName} ${loggedUserData.lastName} : ${comment}`
+        },
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then((response) => {
+                // console.log(response)
+                dispatch(setPost({ post: response }))
+                setComment("")
+                toast.success("Comment added")
+            }).catch((err) => {
+                console.log(err)
+            });
     }
 
-    const HandleLike = async (id) => {
+    const HandleLike = async (id, e) => {
         await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/posts/${id}/like`, {
             userId: loggedUser
-        }).then((response) => {
-            // console.log(response)
-            dispatch(setPost({ post: response }))
-        }).catch((error) => {
-            console.log(error)
-        })
+        },
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then((response) => {
+                // console.log(response)
+                dispatch(setPost({ post: response }))
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 
     const patchFriend = async (id, friendId) => {
         axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/${id}/${friendId}`).then((response) => {
-            // console.log(response.data)
-            dispatch(setFriends({ friends: response.data }))
-        }).catch((err) => {
-            console.log(err)
-        })
+                // console.log(response.data)
+                dispatch(setFriends({ friends: response.data }))
+            }).catch((err) => {
+                console.log(err)
+            })
         window.location.reload(false)
     }
 
@@ -155,8 +179,8 @@ function AllPosts() {
                                 {post.comments.map((comment, i) => {
                                     return (
                                         <div>
-                                            <span style={{ fontWeight: "bolder" }}>{i + 1}.
-                                            </span> <span>{comment}</span>
+                                            <span style={{ fontWeight: "bolder" }}>{i + 1}.</span>
+                                            <span>{comment}</span>
                                             < hr style={{ margin: "1px" }} />
                                         </div>
                                     )

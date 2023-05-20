@@ -14,16 +14,22 @@ function UserPosts({ userId }) {
     const loggedUser = useSelector((state) => state.user._id)
     const [comment, setComment] = useState("")
     const navigate = useNavigate()
+    const token = useSelector((state) => state.token)
 
     const getUserPosts = async () => {
         console.log(userId)
-        await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/posts/${userId}`).then((response) => {
-            const alldata = response.data
-            setFeed(alldata.reverse())
-            // dispatch(setPosts({ posts: response }))
-        }).catch((error) => {
-            console.log(error)
-        })
+        await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/posts/${userId}`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then((response) => {
+                const alldata = response.data
+                setFeed(alldata.reverse())
+                // dispatch(setPosts({ posts: response }))
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 
     useEffect(() => {

@@ -77,8 +77,9 @@
 
 .comment-section {
     background-color: #fbeeee;
-    width: 15rem;
+    width: 17rem;
     padding-left: 15px;
+    padding-right: 6px;
     padding-bottom: 10px;
     padding-top: 10px;
     border-radius: 10px;
@@ -117,7 +118,8 @@
 }
 
 .comment-input {
-    width: 10rem;
+    width: 100%;
+    height: 100%;
     padding-left: 10px;
     border-radius: 8px;
     border: 1px solid blue;

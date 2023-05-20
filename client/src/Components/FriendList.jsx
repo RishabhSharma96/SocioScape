@@ -1,23 +1,27 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import Friends from './Friends'
 import "../Styles/Friends.css"
 
 function FriendList({ userId }) {
 
-    const dispatch = useDispatch()
-    const friends = useSelector((state) => state.user.friends)
+    const token = useSelector((state) => state.token)
 
     const [friendsList, setFriendsList] = useState([])
 
     const getFriends = async () => {
-        await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/${userId}/friends`).then((response) => {
-            console.log(response.data)
-            setFriendsList(response.data)
-        }).catch((error) => {
-            console.log(error)
-        })
+        await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/${userId}/friends`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then((response) => {
+                console.log(response.data)
+                setFriendsList(response.data)
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 
     useEffect(() => {

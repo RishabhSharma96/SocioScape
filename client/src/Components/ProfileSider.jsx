@@ -3,18 +3,25 @@ import "../Styles/ProfileSider.css"
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { useSelector } from 'react-redux'
 
 function ProfileSider({ userId }) {
 
     const [userDetails, setUserDetails] = useState({})
     const navigate = useNavigate()
+    const token = useSelector((state) => state.token)
 
     const getUserDetails = async () => {
-        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/${userId}`).then((response) => {
-            setUserDetails(response.data)
-        }).catch((err) => {
-            console.log(err)
-        })
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/${userId}`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then((response) => {
+                setUserDetails(response.data)
+            }).catch((err) => {
+                console.log(err)
+            })
     }
 
     useEffect(() => {

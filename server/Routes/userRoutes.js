@@ -6,8 +6,8 @@ import { verifyToken } from "../Middleware/Auth.js"
 
 const router = express.Router()
 
-router.get("/:id", getUserData)
-router.get("/:id/friends", getUserFriends)
+router.get("/:id",verifyToken, getUserData)
+router.get("/:id/friends",verifyToken, getUserFriends)
 router.patch("/:id/:friendId", AddRemoveFriends)
 
 export default router
