@@ -1,7 +1,7 @@
 .signup-form-div {
     display: flex;
     height: 100vh;
-    overflow-y: hidden;
+    overflow: hidden;
 }
 
 .register-image {

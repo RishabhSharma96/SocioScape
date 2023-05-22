@@ -41,7 +41,7 @@
 }
 
 .loginbtn {
-    margin-left: -30px;
+    /* margin-left: -20px; */
 }
 
 .login-image {
@@ -53,7 +53,7 @@
 
 .toggle-helper{
     margin-top: 1rem;
-    margin-left: -2rem;
+    /* margin-left: -2rem; */
     color: grey;
 }
 

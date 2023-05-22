@@ -47,9 +47,9 @@ function Login() {
         <div className="login-main">
             <motion.div
                 transition={{ duration: 0.8 }}
-                initial={{ opacity: 0, y: "+400px" }}
+                initial={{ opacity: 0, y: "-400px" }}
                 animate={{ opacity: 1, y: "0px" }}
-                exit={{ opacity: 0, y: "+400px" }}
+                exit={{ opacity: 0, y: "-400px" }}
                 className="login-form">
                 <form onSubmit={handleLogin}>
                     <div className='welcome-register'>
@@ -85,9 +85,9 @@ function Login() {
             </motion.div>
             <motion.div
                 transition={{ duration: 0.8 }}
-                initial={{ opacity: 0, y: "-400px" }}
+                initial={{ opacity: 0, y: "+400px" }}
                 animate={{ opacity: 1, y: "0px" }}
-                exit={{ opacity: 0, y: "-400px" }}
+                exit={{ opacity: 0, y: "+400px" }}
                 className="login-image">
                 <img src={login} alt="" />
             </motion.div>

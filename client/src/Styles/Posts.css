@@ -1,10 +1,10 @@
 .post-form{
-    width: 300px;
+    width: 315px;
     border: 2px solid blue;
     border-radius: 20px;
     height: 11rem;
     box-shadow: -3px 3px 5px #aaaaaa;
-
+    text-align: center;
 }
 
 .write{
@@ -22,7 +22,7 @@
 }
 
 .write input{
-    width: 13rem;
+    width: 13.7rem;
     height: 50px;
     margin-top:10px;
     padding-left: 1rem;
@@ -43,7 +43,7 @@
 
 .upload-btn>input{
     height: 2rem;
-    width: 90%;
+    width: 85%;
     margin-left: 5%;
     margin-top: 10px;
     border-radius: 8px;

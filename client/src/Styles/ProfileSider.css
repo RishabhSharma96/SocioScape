@@ -1,10 +1,11 @@
 .profile-wrapper {
-    width: 300px;
+    width: 315px;
     border: 2px solid blue;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     box-shadow: -3px 3px 5px #aaaaaa;
+    overflow: hidden;
 }
 
 .bio, .bio-image{

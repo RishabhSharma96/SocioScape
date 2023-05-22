@@ -40,13 +40,12 @@ function Register() {
             occupation: registerData.occupation,
         }).then((response) => {
             // console.log(response)
-            navigate("/login")
-            toast.success("Registeration Successful")
         }).catch((error) => {
             // console.log(error)
             toast.error(error.message)
-            navigate("/login")
         })
+        toast.success("Registeration Successful")
+        navigate("/login")
     }
 
     const uploadImages = async (e) => {

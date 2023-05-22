@@ -3,7 +3,8 @@
     border: 1px solid blue;
     margin-top: 1rem;
     box-shadow: -3px 3px 5px #aaaaaa;
-    width: 300px;
+    width: 315px;
+    padding-left: 7.5px;
 }
 
 .single-post {
@@ -118,7 +119,7 @@
 }
 
 .comment-input {
-    width: 100%;
+    width: 10rem;
     height: 100%;
     padding-left: 10px;
     border-radius: 8px;
