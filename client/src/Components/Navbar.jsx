@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import logo from "../assets/logo.png"
 import "../Styles/Navbar.css"
 import { motion } from 'framer-motion'
+import LogoutModal from './LogoutModal'
 
 function Navbar() {
 
@@ -14,10 +15,18 @@ function Navbar() {
 
     const [search, setsearch] = useState("")
 
+    const [modal, setModal] = useState(false)
+
+    const toggleModal = () => {
+        setModal(!modal)
+    }
+
     const name = `${user.firstName}`
 
     return (
+
         <div>
+            {modal && <LogoutModal modal={modal} toggleModal={toggleModal} />}
             <motion.div
                 transition={{ duration: 1.2 }}
                 initial={{ opacity: 0, y: "-400px" }}
@@ -44,7 +53,7 @@ function Navbar() {
                         <div className="active"></div>
                         {name}
                     </div>
-                    <button onClick={() => dispatch(setLogout())}>Logout</button>
+                    <button onClick={toggleModal}>Logout</button>
                 </div>
             </motion.div>
         </div>
