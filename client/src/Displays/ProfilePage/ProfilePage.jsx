@@ -29,19 +29,27 @@ function ProfilePage() {
     <div>
       <Navbar />
       <div className='home-main'>
-        <ProfileSider userId={id} />
+        <motion.div 
+          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, x: "-400px" }}
+          animate={{ opacity: 1, x: "0px" }}
+          exit={{ opacity: 0, x: "-400px" }}>
+          <ProfileSider userId={id} />
+          <div style={{marginTop: "1rem"}}>
+          <FriendList userId={id} />
+          </div>
+        </motion.div>
         <div className="postArea">
           <Posts />
           <UserPosts userId={id} />
         </div>
         <motion.div
           transition={{ duration: 0.8 }}
-          initial={{ opacity: 0, x: "-400px" }}
+          initial={{ opacity: 0, x: "400px" }}
           animate={{ opacity: 1, x: "0px" }}
-          exit={{ opacity: 0, x: "-400px" }}
+          exit={{ opacity: 0, x: "400px" }}
           className='right-sider'>
           <Advertisement />
-          <FriendList userId={id} />
         </motion.div>
       </div>
     </div>

@@ -19,7 +19,7 @@ function Navbar() {
     return (
         <div>
             <motion.div
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 1.2 }}
                 initial={{ opacity: 0, y: "-400px" }}
                 animate={{ opacity: 1, y: "0px" }}
                 exit={{ opacity: 0, y: "-400px" }}

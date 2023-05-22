@@ -5,16 +5,20 @@ import { setPost } from '../States'
 import "../Styles/AllPosts.css"
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { toast } from 'react-hot-toast'
 
 function UserPosts({ userId }) {
 
     const [feed, setFeed] = useState([])
     const dispatch = useDispatch()
-    const [isCommentsVisible, setIsCommentsVisible] = useState(false)
+    const [isCommentsVisible, setIsCommentsVisible] = useState({})
     const loggedUser = useSelector((state) => state.user._id)
     const [comment, setComment] = useState("")
     const navigate = useNavigate()
     const token = useSelector((state) => state.token)
+    const loggedUserData = useSelector((state) => state.user)
+
+    const [refresher, setRefresher] = useState(0)
 
     const getUserPosts = async () => {
         console.log(userId)
@@ -34,32 +38,49 @@ function UserPosts({ userId }) {
 
     useEffect(() => {
         getUserPosts()
-    }, [])
+    }, [refresher])
 
-    const handleComments = () => {
-        setIsCommentsVisible(!isCommentsVisible)
+    const handleComments = (id) => {
+        setIsCommentsVisible({
+            ...isCommentsVisible,
+            [id]: !isCommentsVisible[id]
+        })
     }
 
     const HandleAddComment = async (id) => {
         await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/posts/${id}/addcomment`, {
-            commentData: comment
-        }).then((response) => {
-            console.log(response)
-            dispatch(setPost({ post: response }))
-        }).catch((err) => {
-            console.log(err)
-        });
+            commentData: ` ${loggedUserData.firstName} ${loggedUserData.lastName} : ${comment}`
+        },
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then((response) => {
+                console.log(response)
+                dispatch(setPost({ post: response }))
+                setComment("")
+                toast.success("Comment added")
+                setRefresher((refresher) => refresher + 1)
+            }).catch((err) => {
+                console.log(err)
+            });
     }
 
     const HandleLike = async (id) => {
         await axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/posts/${id}/like`, {
             userId: loggedUser
-        }).then((response) => {
-            console.log(response)
-            dispatch(setPost({ post: response }))
-        }).catch((error) => {
-            console.log(error)
-        })
+        },
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }).then((response) => {
+                console.log(response)
+                dispatch(setPost({ post: response }))
+                setRefresher((refresher) => refresher + 1)
+            }).catch((error) => {
+                console.log(error)
+            })
     }
 
     return (
@@ -96,7 +117,7 @@ function UserPosts({ userId }) {
                                     onClick={() => HandleLike(post._id)}></i><span>{Object.keys(post.likes).length}</span>
                             </div>
                             <div className='like-area'>
-                                <i className='fa fa-commenting-o' onClick={(handleComments)}></i><span>{post.comments.length}</span>
+                                <i className='fa fa-commenting-o' onClick={() => handleComments(post._id)}></i><span>{post.comments.length}</span>
                             </div>
                             <div className="comment-area">
                                 <input
@@ -109,7 +130,7 @@ function UserPosts({ userId }) {
                                 <input className='comment-btn' type="submit" value="Comment" onClick={() => HandleAddComment(post._id)} />
                             </div>
                         </div>
-                        <div className={isCommentsVisible ? "comment-section visible" : "invisible"}>
+                        <div className={isCommentsVisible[post._id] ? "comment-section visible" : "invisible"}>
                             {post.comments.map((comment, i) => {
                                 return (
                                     <div>

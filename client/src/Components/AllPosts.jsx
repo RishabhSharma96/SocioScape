@@ -17,9 +17,9 @@ function AllPosts() {
     const [comment, setComment] = useState("")
     const navigate = useNavigate()
     const token = useSelector((state) => state.token)
+    const [isCommentsVisible, setIsCommentsVisible] = useState({})
     
-    const [isCommentsVisible, setIsCommentsVisible] = useState(false)
-
+    const [refresher , setRefresher] = useState(0);
 
     const [friendData, setFriendData] = useState({
         name: "",
@@ -46,10 +46,13 @@ function AllPosts() {
 
     useEffect(() => {
         getAllPosts()
-    }, [])
+    }, [refresher])
 
-    const handleComments = () => {
-        setIsCommentsVisible(!isCommentsVisible)
+    const handleComments = (id) => {
+        setIsCommentsVisible({
+            ...isCommentsVisible, 
+            [id] : !isCommentsVisible[id]
+        })
     }
 
     const HandleAddComment = async (id) => {
@@ -70,9 +73,11 @@ function AllPosts() {
                 dispatch(setPost({ post: response }))
                 setComment("")
                 toast.success("Comment added")
+                setRefresher((refresher) => refresher+1)    
             }).catch((err) => {
                 console.log(err)
             });
+        
     }
 
     const HandleLike = async (id, e) => {
@@ -86,6 +91,7 @@ function AllPosts() {
             }).then((response) => {
                 // console.log(response)
                 dispatch(setPost({ post: response }))
+                setRefresher((refresher) => refresher+1) 
             }).catch((error) => {
                 console.log(error)
             })
@@ -95,10 +101,10 @@ function AllPosts() {
         axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/${id}/${friendId}`).then((response) => {
                 // console.log(response.data)
                 dispatch(setFriends({ friends: response.data }))
+                window.location.reload(true)
             }).catch((err) => {
                 console.log(err)
             })
-        window.location.reload(false)
     }
 
     const handleFriends = (post) => {
@@ -131,9 +137,9 @@ function AllPosts() {
         <div>
             <motion.div
 
-                initial={{ opacity: 0, y: "-200vh" }}
+                initial={{ opacity: 0, y: "-300vh" }}
                 animate={{ opacity: 1, y: "0" }}
-                exit={{ opacity: 0, y: "-200vh" }}
+                exit={{ opacity: 0, y: "-300vh" }}
                 transition={{ duration: 1, delay: 0.2 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
@@ -162,7 +168,7 @@ function AllPosts() {
                                         onClick={() => HandleLike(post._id)}></i><span>{Object.keys(post.likes).length}</span>
                                 </div>
                                 <div className='like-area'>
-                                    <i className='fa fa-commenting-o' onClick={(handleComments)}></i><span>{post.comments.length}</span>
+                                    <i className='fa fa-commenting-o' onClick={() => handleComments(post._id)}></i><span>{post.comments.length}</span>
                                 </div>
                                 <div className="comment-area">
                                     <input
@@ -175,7 +181,7 @@ function AllPosts() {
                                     <input className='comment-btn' type="submit" value="Comment" onClick={() => HandleAddComment(post._id)} />
                                 </div>
                             </div>
-                            <div className={isCommentsVisible ? "comment-section visible" : "invisible"}>
+                            <div className={isCommentsVisible[post._id] ? "comment-section visible" : "invisible"}>
                                 {post.comments.map((comment, i) => {
                                     return (
                                         <div>
