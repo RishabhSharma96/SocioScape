@@ -83,6 +83,8 @@ function UserPosts({ userId }) {
             })
     }
 
+
+
     return (
         <motion.div
 
@@ -111,13 +113,15 @@ function UserPosts({ userId }) {
                             <p className='post-description'>{post.description}</p>
                             <img className='main-post-image' src={post.picturePath} alt="" />
                         </div>
-                        <div className='likes-comments'>
-                            <div className="like-area">
-                                <i className={Boolean(post.likes[loggedUser]) === true ? "fa fa-heart" : "fa fa-heart-o"}
-                                    onClick={() => HandleLike(post._id)}></i><span>{Object.keys(post.likes).length}</span>
-                            </div>
-                            <div className='like-area'>
-                                <i className='fa fa-commenting-o' onClick={() => handleComments(post._id)}></i><span>{post.comments.length}</span>
+                        <div className='post-reaction-area likes-comments'>
+                            <div style={{display: "flex", margin: "5px 0"}}>
+                                <div className="like-area">
+                                    <i className={Boolean(post.likes[loggedUser]) === true ? "fa fa-heart" : "fa fa-heart-o"}
+                                        onClick={() => HandleLike(post._id)}></i><span>{Object.keys(post.likes).length}</span>
+                                </div>
+                                <div className='like-area'>
+                                    <i className='fa fa-commenting-o' onClick={() => handleComments(post._id)}></i><span>{post.comments.length}</span>
+                                </div>
                             </div>
                             <div className="comment-area">
                                 <input

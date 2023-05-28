@@ -17,3 +17,9 @@
         align-items: center;
     }
 }
+
+@media(max-width: 640px){
+    .profile-sider-div{
+        display: none;
+    }
+}

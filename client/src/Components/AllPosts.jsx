@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import Friends from './Friends'
 import { motion } from 'framer-motion'
 import { toast } from 'react-hot-toast'
+import ShareModal from './ShareModal'
 
 function AllPosts() {
 
@@ -18,8 +19,10 @@ function AllPosts() {
     const navigate = useNavigate()
     const token = useSelector((state) => state.token)
     const [isCommentsVisible, setIsCommentsVisible] = useState({})
-    
-    const [refresher , setRefresher] = useState(0);
+    const [shareData, setShareData] = useState({})
+    const [shareToggle, setShareToggle] = useState(false)
+
+    const [refresher, setRefresher] = useState(0);
 
     const [friendData, setFriendData] = useState({
         name: "",
@@ -50,8 +53,8 @@ function AllPosts() {
 
     const handleComments = (id) => {
         setIsCommentsVisible({
-            ...isCommentsVisible, 
-            [id] : !isCommentsVisible[id]
+            ...isCommentsVisible,
+            [id]: !isCommentsVisible[id]
         })
     }
 
@@ -73,11 +76,11 @@ function AllPosts() {
                 dispatch(setPost({ post: response }))
                 setComment("")
                 toast.success("Comment added")
-                setRefresher((refresher) => refresher+1)    
+                setRefresher((refresher) => refresher + 1)
             }).catch((err) => {
                 console.log(err)
             });
-        
+
     }
 
     const HandleLike = async (id, e) => {
@@ -91,7 +94,7 @@ function AllPosts() {
             }).then((response) => {
                 // console.log(response)
                 dispatch(setPost({ post: response }))
-                setRefresher((refresher) => refresher+1) 
+                setRefresher((refresher) => refresher + 1)
             }).catch((error) => {
                 console.log(error)
             })
@@ -99,12 +102,12 @@ function AllPosts() {
 
     const patchFriend = async (id, friendId) => {
         axios.patch(`${process.env.REACT_APP_BACKEND_URL}/api/${id}/${friendId}`).then((response) => {
-                // console.log(response.data)
-                dispatch(setFriends({ friends: response.data }))
-                window.location.reload(true)
-            }).catch((err) => {
-                console.log(err)
-            })
+            // console.log(response.data)
+            dispatch(setFriends({ friends: response.data }))
+            window.location.reload(true)
+        }).catch((err) => {
+            console.log(err)
+        })
     }
 
     const handleFriends = (post) => {
@@ -133,8 +136,16 @@ function AllPosts() {
         patchFriend(loggedUser, friendId)
     }
 
+    const toggleShareModal = (post) => {
+        setShareToggle(!shareToggle)
+        setShareData(post)
+    }
+
     return (
         <div>
+
+            {shareToggle && <ShareModal shareData={shareData} shareToggle={shareToggle} toggleShareModal={toggleShareModal} />}
+
             <motion.div
 
                 initial={{ opacity: 0, y: "-300vh" }}
@@ -162,13 +173,18 @@ function AllPosts() {
                                 <p className='post-description'>{post.description}</p>
                                 <img className='main-post-image' src={post.picturePath} alt="" />
                             </div>
-                            <div className='likes-comments'>
-                                <div className="like-area">
-                                    <i className={Boolean(post.likes[loggedUser]) === true ? "fa fa-heart" : "fa fa-heart-o"}
-                                        onClick={() => HandleLike(post._id)}></i><span>{Object.keys(post.likes).length}</span>
-                                </div>
-                                <div className='like-area'>
-                                    <i className='fa fa-commenting-o' onClick={() => handleComments(post._id)}></i><span>{post.comments.length}</span>
+                            <div className='post-reaction-area'>
+                                <div className='likes-comments'>
+                                    <div className="like-area">
+                                        <i className={Boolean(post.likes[loggedUser]) === true ? "fa fa-heart" : "fa fa-heart-o"}
+                                            onClick={() => HandleLike(post._id)}></i><span>{Object.keys(post.likes).length}</span>
+                                    </div>
+                                    <div className='like-area'>
+                                        <i className='fa fa-commenting-o' style={{ color: "blue" }} onClick={() => handleComments(post._id)}></i><span>{post.comments.length}</span>
+                                    </div>
+                                    <div className='like-area' style={{ paddingTop: "4px" }}>
+                                        <i className='fa fa-share-square-o' onClick={() => toggleShareModal(post)} style={{ color: "black" }}></i>
+                                    </div>
                                 </div>
                                 <div className="comment-area">
                                     <input

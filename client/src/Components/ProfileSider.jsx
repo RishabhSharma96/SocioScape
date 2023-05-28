@@ -79,7 +79,7 @@ function ProfileSider({ userId }) {
                 <div className="social-profiles">
                     <div className="twitter">
                         <div className="twitter-logo">
-                            <i className='fa fa-twitter'></i>
+                            <i className='fa fa-twitter' style={{ color: "lightpurple" }}></i>
                         </div>
                         <div className="twitter-info">
                             <span className='company-name'>Twitter</span>
@@ -90,7 +90,7 @@ function ProfileSider({ userId }) {
                     </div>
                     <div className="linkedin">
                         <div className="linkedin-logo">
-                            <i className="fa fa-linkedin"></i>
+                            <i className="fa fa-linkedin" style={{ color: "blue" }}></i>
                         </div>
                         <div className="linkedin-info">
                             <span className='company-name'>LinkedIn</span>

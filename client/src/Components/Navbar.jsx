@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import { setLogout } from '../States'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import logo from "../assets/logo.png"
 import "../Styles/Navbar.css"
@@ -10,7 +9,6 @@ import LogoutModal from './LogoutModal'
 function Navbar() {
 
     const navigate = useNavigate()
-    const dispatch = useDispatch()
     const user = useSelector((state) => state.user)
 
     const [search, setsearch] = useState("")

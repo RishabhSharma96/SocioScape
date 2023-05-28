@@ -29,7 +29,9 @@ function HomePage() {
     <div>
       <Navbar />
       <div className="home-main">
-        <ProfileSider userId={_id} />
+        <div className='profile-sider-div'>
+          <ProfileSider userId={_id} />
+        </div>
         <motion.div
           className="postArea">
           <Posts />
